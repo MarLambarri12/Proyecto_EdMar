@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $stmt->store_result();
 
                 if ($stmt->num_rows > 0) {
-                    echo "<div class='alert alert-danger'>Error: El correo ya se encuentra registrado, por favor intenta con uno diferente.</div>";
+                    echo "<div class='alert alert-danger'>El correo ya se encuentra registrado, por favor intenta con uno diferente.</div>";
                 } else {
                     $stmt->close();
 
