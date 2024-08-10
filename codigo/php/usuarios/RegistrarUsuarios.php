@@ -14,6 +14,9 @@ function validarFechaNacimiento($fecha_nacimiento) {
            $fecha_nacimiento_obj <= new DateTime();
 }
 
+//Inicializar la varible alertas
+$alertas =[];
+
 // Verificar si se ha enviado el formulario
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Verificar si el formulario es para registrar
@@ -37,58 +40,63 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $sexo = trim($_POST['sexo']);
             $fecha_nacimiento = trim($_POST['fechaNacimiento']);
             $email = trim($_POST['correoElectronico']);
-            $contra = trim($_POST['pass']);
+            $pass = trim($_POST['pass']);
+            $priv = "Cliente";
 
-            //Permitir que el usuario solo tenga menos de 7 caracteres
-            if(strlen($usuario) > 10 || !preg_match('/^[a-zA-Z0-9]+$/', $usuario)){
-                echo "<div class='alert alert-danger'> El nombre de usuario no debe exceder de al menos 7 caracteres y solo debe contener letras y numeros. </div>";
-            }else{
-
-            // Verificar la fecha de nacimiento
-            if (!validarFechaNacimiento($fecha_nacimiento)) {
-                echo "<div class='alert alert-danger'>Fecha de nacimiento inválida o es una fecha futura. Por favor ingresa una fecha válida.</div>";
+            // Validar la longitud de la contraseña
+            if(strlen($pass) < 8 || !preg_match('/^[a-zA-Z0-9]+$/', $pass)){
+                $alertas[] ="La contraseña debe tener mínimo 8 caracteres y solo letras y números.";
             } else {
-                // Verificar si el correo ya fue registrado
-                $query = "SELECT id FROM usuarios WHERE email = ?";
-                $stmt = $conn->prepare($query);
-                $stmt->bind_param("s", $email);
-                $stmt->execute();
-                $stmt->store_result();
-
-                if ($stmt->num_rows > 0) {
-                    echo "<div class='alert alert-danger'>El correo ya se encuentra registrado, por favor intenta con uno diferente.</div>";
+                // Validar la longitud y formato del nombre de usuario
+                if(strlen($usuario) > 13 || !preg_match('/^[a-zA-Z0-9]+$/', $usuario)){
+                    $alertas[]="El nombre de usuario no debe exceder de 13 caracteres y solo debe contener letras y números.";
                 } else {
-                    $stmt->close();
-
-                    // Preparar y ejecutar SQL
-                    $sql = "INSERT INTO usuarios (nombre, apellido_paterno, apellido_materno, usuario, sexo, fecha_nacimiento, email, pass) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-                    $stmt = $conn->prepare($sql);
-                    $encriptado_pass = password_hash($contra, PASSWORD_DEFAULT); // Hashear la contraseña
-                    $stmt->bind_param("ssssssss", $nombre, $apellido_paterno, $apellido_materno, $usuario, $sexo, $fecha_nacimiento, $email, $encriptado_pass);
-
-                    // Ejecutar la consulta y manejar el resultado
-                    if ($stmt->execute()) {
-                        $stmt->close();
-                        $conn->close();
-                        header("Location: index.php");
-                        exit();
+                    // Verificar la fecha de nacimiento
+                    if (!validarFechaNacimiento($fecha_nacimiento)) {
+                        $alertas[]="Fecha de nacimiento inválida o es una fecha futura. Por favor ingresa una fecha válida.";
                     } else {
-                        echo "<div class='alert alert-danger'>Registro incorrecto, por favor intenta nuevamente.</div>";
+                        // Verificar si el correo ya fue registrado
+                        $query = "SELECT id FROM usuarios WHERE email = ?";
+                        $stmt = $conn->prepare($query);
+                        $stmt->bind_param("s", $email);
+                        $stmt->execute();
+                        $stmt->store_result();
+
+                        if ($stmt->num_rows > 0) {
+                            $alertas[]="El correo ya se encuentra registrado, por favor intenta con uno diferente.";
+                        } else {
+                            $stmt->close();
+
+                            // Preparar y ejecutar SQL para insertar usuario
+                            $sql = "INSERT INTO usuarios (nombre, apellido_paterno, apellido_materno, usuario, sexo, fecha_nacimiento, email, pass, privilegio) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                            $stmt = $conn->prepare($sql);
+                            $hashed_password = password_hash($pass, PASSWORD_DEFAULT); // Hashear la contraseña
+                            $stmt->bind_param("sssssssss", $nombre, $apellido_paterno, $apellido_materno, $usuario, $sexo, $fecha_nacimiento, $email, $hashed_password, $priv);
+
+                            // Ejecutar la consulta y manejar el resultado
+                            if ($stmt->execute()) {
+                                $stmt->close();
+                                $conn->close();
+                                header("Location: login.php");
+                                exit();
+                            } else {
+                                $alertas[]="Registro incorrecto, por favor intenta nuevamente.";
+                            }
+                        }
                     }
                 }
             }
-        }
         } else {
-            echo "<div class='alert alert-danger'>Todos los campos son requeridos.</div>";
+            $alertas[]="Todos los campos son requeridos.";
         }
     }
 
     // Si el formulario es para iniciar sesión
     if (isset($_POST['tipo']) && $_POST['tipo'] === 'login') {
         // Verificar si los campos no están vacíos
-        if (!empty(trim($_POST['usuariologin'])) && !empty(trim($_POST['floatingPassword']))) {
+        if (!empty(trim($_POST['usuariologin'])) && !empty(trim($_POST['contra']))) {
             $usuario = trim($_POST['usuariologin']);
-            $contra = trim($_POST['floatingPassword']);
+            $pass1 = trim($_POST['contra']);
 
             // Consulta para obtener el usuario
             $query = "SELECT id, pass FROM usuarios WHERE usuario = ?";
@@ -97,27 +105,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->execute();
             $stmt->store_result();
 
+            $sql = "SELECT privilegio FROM usuarios WHERE Usuario = '".$_POST['usuariologin']."'";
+
+            $result=mysqli_query($conn,$sql);
+
+            $TipoUser=mysqli_fetch_row($result)[0];
+
+
+
             // Verificar si existe el usuario
             if ($stmt->num_rows == 1) {
                 // Recupera el ID de la contraseña hasheada
-                $stmt->bind_result($id, $encriptado_pass);
+                $stmt->bind_result($id, $hashed_password);
                 $stmt->fetch();
 
                 // Verificar la contraseña
-                if (password_verify($contra, $encriptado_pass)) {
+                if (password_verify($pass1, $hashed_password)) {
                     // Iniciar sesión
                     session_start();
                     $_SESSION['usuario_id'] = $id; // Guardar el ID del usuario en la sesión
-                    header("Location: Vistas/Menu.php"); // Redirigir a una página protegida
+                    $_SESSION['usuario'] = $usuario; //Guardar el nombre del usuario
+
+                    //Verificar si el usuario es "admin"
+                    if($TipoUser === 'Admin'){
+                        header("Location: inicio.php");
+                    }else{
+                        header("Location: Vistas/Menu.php"); // Redirigir a una página protegida
+                    }
                     exit();
                 } else {
-                    echo "<div class='alert alert-danger'>Contraseña incorrecta, por favor intente nuevamente.</div>";
+                    $alertas[]="Contraseña incorrecta, por favor intente nuevamente.";
                 }
             } else {
-                echo "<div class='alert alert-danger'>Usuario no encontrado.</div>";
+                $alertas[]="Usuario no encontrado.";
             }
         } else {
-            echo "<div class='alert alert-danger'>Todos los campos son requeridos.</div>";
+            $alertas[]="Todos los campos son requeridos.";
         }
     }
 }
@@ -125,4 +148,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Finalizar el búfer de salida
 ob_end_flush();
 
-//1024967
