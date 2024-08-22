@@ -20,7 +20,7 @@ $alertas =[];
 // Verificar si se ha enviado el formulario
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Verificar si el formulario es para registrar
-    if (isset($_POST['tipo']) && $_POST['tipo'] === 'registro') {
+    if (isset($_POST['tipo']) && $_POST['tipo'] === 'registroEnModuloUsuario') {
         // Verificar si los campos no están vacíos
         if (
             !empty(trim($_POST['nombre'])) &&
@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             !empty(trim($_POST['sexo'])) &&
             !empty(trim($_POST['fechaNacimiento'])) &&
             !empty(trim($_POST['correoElectronico'])) &&
+            //!empty(trim($_POST['privilegio'])) &&
             !empty(trim($_POST['pass']))
         ) {
             // Asignar los valores de los campos a las variables
@@ -40,8 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $sexo = trim($_POST['sexo']);
             $fecha_nacimiento = trim($_POST['fechaNacimiento']);
             $email = trim($_POST['correoElectronico']);
+            //$privilegio = trim($_POST['privilegio']);
             $pass = trim($_POST['pass']);
-            $priv = "Cliente";
+            $priv ="Cliente";
+
 
             // Validar la longitud de la contraseña
             if(strlen($pass) < 8 || !preg_match('/^[a-zA-Z0-9]+$/', $pass)){
@@ -71,13 +74,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             $sql = "INSERT INTO usuarios (nombre, apellido_paterno, apellido_materno, usuario, sexo, fecha_nacimiento, email, pass, privilegio) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                             $stmt = $conn->prepare($sql);
                             $hashed_password = password_hash($pass, PASSWORD_DEFAULT); // Hashear la contraseña
-                            $stmt->bind_param("sssssssss", $nombre, $apellido_paterno, $apellido_materno, $usuario, $sexo, $fecha_nacimiento, $email, $hashed_password, $priv);
+                            $stmt->bind_param("sssssssss", $nombre, $apellido_paterno, $apellido_materno, $usuario, $sexo, $fecha_nacimiento, $email, $hashed_password, $privilegio);
 
                             // Ejecutar la consulta y manejar el resultado
                             if ($stmt->execute()) {
                                 $stmt->close();
                                 $conn->close();
-                                header("Location: login.php");
+                               // header("Location: usuarios.php");
                                 exit();
                             } else {
                                 $alertas[]="Registro incorrecto, por favor intenta nuevamente.";
@@ -90,55 +93,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $alertas[]="Todos los campos son requeridos.";
         }
     }
-
-    // Si el formulario es para iniciar sesión
-    if (isset($_POST['tipo']) && $_POST['tipo'] === 'login') {
-        // Verificar si los campos no están vacíos
-        if (!empty(trim($_POST['usuariologin'])) && !empty(trim($_POST['contra']))) {
-            $usuario = trim($_POST['usuariologin']);
-            $pass1 = trim($_POST['contra']);
-
-            // Consulta para obtener el usuario
-            $query = "SELECT id, pass, privilegio FROM usuarios WHERE usuario = ?";
-            $stmt = $conn->prepare($query);
-            $stmt->bind_param("s", $usuario);
-            $stmt->execute();
-            $stmt->store_result();
-
-            // Verificar si existe el usuario
-            if ($stmt->num_rows == 1) {
-                // Recupera el ID, la contraseña hasheada y el privilegio
-                $stmt->bind_result($id, $hashed_password,$TipoUser);
-                $stmt->fetch();
-
-                // Verificar la contraseña
-                if (password_verify($pass1, $hashed_password)) {
-                    // Iniciar sesión
-                    session_start();
-                    $_SESSION['usuario_id'] = $id; // Guardar el ID del usuario en la sesión
-                    $_SESSION['usuario'] = $usuario; //Guardar el nombre del usuario
-
-                    //Verificar si el usuario es "admin"
-                    if($TipoUser === 'Admin'){
-                        header("Location: inicio.php");
-                    }else{
-                        header("Location: ../Vistas/Menu.php"); // Redirigir a una página protegida
-                    }
-                    exit();
-                } else {
-                    $alertas[]="Contraseña incorrecta, por favor intente nuevamente.";
-                }
-            } else {
-                $alertas[]="Usuario no encontrado.";
-            }
-        } else {
-            $alertas[]="Todos los campos son requeridos.";
-        }
-    }
 }
-
-// Finalizar el búfer de salida
+    // Finalizar el búfer de salida
 ob_end_flush();
-
-
-//Davalosdepeluche  martidp

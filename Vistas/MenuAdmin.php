@@ -1,32 +1,14 @@
-<?php
-include '../dependencias.php';
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../codigo/css/MenuInicio.css">
-    <link rel="stylesheet" href="../bootstrap/bootstrap-icons/font/bootstrap-icons.css">
-    <title></title>
-</head>
-
-<body>
+<header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="../img/Logo1.png" alt="Logo" width="30" height="30">
+                <img src="/Proyecto_EdMar/img/Logo1.png" alt="Logo" width="50" height="50">
             </a>
             <button class="btn btn-outline-light" type="submit">
                 <i class="bi bi-list" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions"
-                    aria-controls="offcanvasWithBothOptions">Menú prinsipal</i>
+                    aria-controls="offcanvasWithBothOptions">&nbsp;Menú</i>
             </button>
 
-            <!--  <a class="nav-link text-white" href="#" >
-    <i class="bi bi-list" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Menú prinsipal</i> 
-</a> -->
             &nbsp;&nbsp;&nbsp;
 
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
@@ -44,39 +26,32 @@ include '../dependencias.php';
                 </div>
 
                 <div class="offcanvas-body">
-                    <form class="d-flex mx-auto w-50">
+                    <!-- <form class="d-flex mx-auto w-50">
                         <input class="form-control me-2" type="search" placeholder="Busca lo que necesites"
                             aria-label="Search">
                         <button class="btn btn-outline-light" type="submit">
                             <i class="bi bi-search"></i>
                         </button>
-                    </form>
+                    </form> -->
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-
                             <a class="nav-link" href="#"><i class="bi bi-person-vcard"></i>&nbsp;Afiliados</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#"><i class="bi bi-receipt-cutoff"></i>&nbsp;Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="bi bi-people-fill"></i>&nbsp;Usuarios y permisos</a>
+                            <a class="nav-link" href="/Proyecto_EdMar/sistema/usuarios/usuarios.php"><i class="bi bi-people-fill"></i>&nbsp;Usuarios y permisos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"> <i class="bi bi-person-circle"></i>&nbsp;Cerrar sesión</a>
+                            <a class="nav-link" href="../../codigo/php/usuarios/salir.php"><i class="bi bi-person-circle"></i>&nbsp;Cerrar sesión</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
-        <div class="container-fluid">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-            </ul>
-        </div>
-    </nav>
     <!-- Aqui inicia el menu prinsipal -->
     <div class="offcanvas offcanvas-start text-white" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
         aria-labelledby="offcanvasWithBothOptionsLabel">
@@ -163,6 +138,4 @@ include '../dependencias.php';
                         </div>
                         <!-- Final del acordeón -->
                     </div>
-</body>
-
-</html>
+</header>

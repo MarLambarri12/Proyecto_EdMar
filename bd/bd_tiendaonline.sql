@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-08-2024 a las 03:40:46
+-- Tiempo de generación: 23-08-2024 a las 00:30:17
 -- Versión del servidor: 10.4.8-MariaDB
 -- Versión de PHP: 7.3.11
 
@@ -41,19 +41,19 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `fecha_nacimiento` date NOT NULL,
   `email` varchar(100) NOT NULL,
   `pass` varchar(100) NOT NULL,
+  `privilegio` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `nombre`, `apellido_paterno`, `apellido_materno`, `usuario`, `sexo`, `fecha_nacimiento`, `email`, `pass`) VALUES
-(1, 'Edgar Adrián', 'Preciado', 'Naranjo', 'EdgarAd', 'Masculino', '1997-11-09', 'edgar_@gmail.com', '$2y$10$iDFHZ06gjrY9fEy8iaBg7O9fRZV.CxmIdr2F7w3x1acLmj9OKZhvq'),
-(2, 'María', 'Lambarri', 'Hernández', 'Mar', 'Femenino', '1997-12-07', 'mlambarri3@gmail.com', '$2y$10$borZuxhPyEsG59AjjAu1XOcYNz2YgfHj5E5XHXhYqOsBVqmnRXbdK'),
-(3, 'Matias', 'Almeyda', 'Lozano', 'matichiva', 'Masculino', '1995-08-05', 'mati@gmail.com', '$2y$10$IQe/QWFzDhPd2H5FMRM1KeD6c9n7nlV/.FVxZKx6g7dsU/VvBQIjG'),
-(5, 'María', 'Lambarri', 'Hernandez', 'Admin', 'Femenino', '1997-12-07', 'admin@gmail.com', '$2y$10$HaUBAizKuMQ9GTQwQHdT3OMsEJU3Pipmjg7QcJ52oyXRSoaV6Hxfy'),
-(6, 'Brenda', 'Lambarri', 'Hernandez', 'Usuario', 'Femenino', '2018-02-01', 'usuario@gmail.com', '$2y$10$Z.ho81ucBjI53Wa/rF97f.ZhcsSo8g..5nPs8Fjmt3q4wlu8Ugb9e');
+INSERT INTO `usuarios` (`id`, `nombre`, `apellido_paterno`, `apellido_materno`, `usuario`, `sexo`, `fecha_nacimiento`, `email`, `pass`, `privilegio`) VALUES
+(85, 'Feliciano', 'Lambarri', 'Mata', 'user123', 'Femenino', '2024-07-12', 'usuario45@gmail.com', '', 'Admin'),
+(91, 'Brenda', 'Lambarri', 'Hernandez', 'user', 'Femenino', '2024-07-11', 'mlambarri324@gmail.com', '', 'Cliente'),
+(92, 'Andrea', 'Hernandez', 'Hernandez', 'user', 'Femenino', '2024-07-11', 'ejemplo463@gmail.com', '$2y$10$fv29/rGc2ep5M3hEK1HRi.HwGvON34U00tyU7Lul8LudbmN6KRvuG', 'Admin'),
+(93, 'Valeria', 'Montero', 'Andrade', 'Admin', 'Femenino', '2024-08-08', 'mlambarr0i3@gmail.com', '$2y$10$Jkt4nEPxyN5sdXmXRveZVeCEhTmHT2.VsZfdoSIPWL5wjld0cYz0i', 'Admin');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

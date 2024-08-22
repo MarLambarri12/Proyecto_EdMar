@@ -1,5 +1,5 @@
 <?php 
-include 'codigo/php/usuarios/RegistrarUsuarios.php';
+include 'RegistrarUsuariosTabla.php';
 ?>
 
 <!DOCTYPE html>
@@ -7,9 +7,9 @@ include 'codigo/php/usuarios/RegistrarUsuarios.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="..\img\Logo1.png">
     <title>EdMar</title>
-    <?php include 'dependencias.php';?>
-    <link rel="stylesheet" href="codigo/css/login.css">
+    <?php include '../../dependencias.php';?>
 </head>
 <body>
 
@@ -27,64 +27,18 @@ include 'codigo/php/usuarios/RegistrarUsuarios.php';
         <?php if (isset($mensaje_alerta)) echo $mensaje_alerta; ?>
     </div>
 
-<div class="card custom-card" style="width: 28rem;">
-  <div class="card-header color" >
-  <h3 class="title">Iniciar Sesión</h3>
-  </div>
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            
-            <form id="formlogin" method="post" class="loginform">
-              <input type="hidden" name="tipo" value="login">
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="usuariologin" name="usuariologin" placeholder="Usuario">
-               <label for="usuariologin">Usuario</label>
-            </div>
-         <div class="form-floating">
-          <input type="password" class="form-control" id="contra" name="contra" placeholder="Password">
-          <label for="contra">Contraseña</label>
-       </div>
-       <br>
-                <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
-            </form>
-            <div class="text-center mt-3">
-         
-                <p>¿Aún no tienes una cuenta? <br><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Regístrate aquí</a></p>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-
-<script>
-  document.querySelector('#formlogin').addEventListener('submit', function(e){
-     e.preventDefault();
-
-     var logusuario = document.querySelector('#usuariologin').value.trim();
-     var password = document.querySelector('#contra').value.trim();
-     
-     if (!logusuario || !password){
-      alert('Ingresa todos los campos');
-      return;
-     }
-     document.querySelector('#formlogin').submit();
-  });
-
-</script>
-
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Registro de usuario</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="background-color: #E8E1EF;">
       <form id="formusuarios" method="POST">
-        <input type="hidden" name="tipo" value="registro">
+        <input type="hidden" name="tipo" value="registroEnModuloUsuario">
   <div class="row mb-3">
     <div class="col">
       <label for="nombre" class="form-label">Nombre</label>
@@ -120,15 +74,23 @@ include 'codigo/php/usuarios/RegistrarUsuarios.php';
           <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
           <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento">
         </div>
-        
-  <div class="row mb-3">
-    <div class="col">
-        <br>
+
+        <div class="col">
       <label for="correoElectronico" class="form-label">Correo Electrónico</label>
       <input type="email" class="form-control" id="correoElectronico" name="correoElectronico" placeholder="Email" aria-describedby="emailHelp">
     </div>
+
+   </div>     
+  <div class="row mb-3">
+  <div class="col">
+      <label for="privilegio" class="form-label">privilegio</label>
+      <select class="form-select" id="privilegio" name="privilegio" aria-label="privilegio" required>
+        <option value="" disable selected> seleccionar</option>
+        <option value="Admin">Administrador</option>
+        <option value="Cliente">Clinte</option>
+      </select>
+    </div>
     <div class="col">
-        <br>
       <label for="pass" class="form-label">Contraseña</label>
       <input type="password" class="form-control" id="pass" name="pass" placeholder="Contraseña">
     </div>
