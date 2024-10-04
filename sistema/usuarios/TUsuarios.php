@@ -1,11 +1,9 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/Proyecto_EdMar/bd/conexion.php';
 
-// Obtener la consulta de búsqueda
-$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
-
 //Obtener a los usuarios
 $sql = "SELECT id, CONCAT_WS(' ', nombre, apellido_paterno, apellido_materno) AS nombreApellidos, nombre, apellido_paterno, apellido_materno, usuario, sexo, fecha_nacimiento, email, privilegio FROM usuarios";
+
 //$result = $conn->query($sql);
 
 // Condiciones de búsqueda
@@ -18,6 +16,7 @@ if ($searchQuery != '') {
             OR email LIKE '%$searchQuery%' 
             OR privilegio LIKE '%$searchQuery%'";
 }
+
 
 // Ejecutar la consulta
 $result = $conn->query($sql);
@@ -52,7 +51,7 @@ $result = $conn->query($sql);
         <td>Eliminar</td>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="tabla-body" >
       <?php
       if ($result->num_rows > 0) {
         $row = [];
