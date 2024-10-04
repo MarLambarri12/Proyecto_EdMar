@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="img/logosinfondo.png" />
     <link rel="stylesheet" href="codigo/css/MenuInicio.css">
-    
+    <link rel="stylesheet" href="bootstrap/bootstrap-icons/font/bootstrap-icons.css">
     <title>EdMar</title>
 
 </head>

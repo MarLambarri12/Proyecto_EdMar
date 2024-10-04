@@ -10,7 +10,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'&& isset($_POST['id'])){
     $stmt->bind_param("i", $id);
 
     if ($stmt->execute()){
-        echo "Usuario eliminado con éxito."; // Es importante la palabra éxito por que hace referencia para actualizar la tabla
+        echo "success"; // Es importante la palabra éxito por que hace referencia para actualizar la tabla
+    
     }else{
         echo "Error al eliminar el usuario" . $stmt->error;
     }

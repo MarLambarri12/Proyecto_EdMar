@@ -3,9 +3,6 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
-
--- Tiempo de generación: 23-08-2024 a las 00:30:17
-
 -- Tiempo de generación: 04-10-2024 a las 08:21:30
 -- Versión del servidor: 10.4.8-MariaDB
 -- Versión de PHP: 7.3.11
@@ -29,7 +26,7 @@ USE `bd_tiendaonline`;
 
 -- --------------------------------------------------------
 
-
+--
 -- Estructura de tabla para la tabla `categorias`
 --
 
@@ -228,7 +225,6 @@ INSERT INTO `subcategorias` (`id_subcategoria`, `id_categoria`, `nombre_subcateg
 -- --------------------------------------------------------
 
 --
->>>>>>> Stashed changes
 -- Estructura de tabla para la tabla `usuarios`
 --
 
@@ -245,23 +241,13 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `pass` varchar(100) NOT NULL,
   `privilegio` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4;
-
 ) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4;
->>>>>>> Stashed changes
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `apellido_paterno`, `apellido_materno`, `usuario`, `sexo`, `fecha_nacimiento`, `email`, `pass`, `privilegio`) VALUES
-
-(85, 'Feliciano', 'Lambarri', 'Mata', 'user123', 'Femenino', '2024-07-12', 'usuario45@gmail.com', '', 'Admin'),
-(91, 'Brenda', 'Lambarri', 'Hernandez', 'user', 'Femenino', '2024-07-11', 'mlambarri324@gmail.com', '', 'Cliente'),
-(92, 'Andrea', 'Hernandez', 'Hernandez', 'user', 'Femenino', '2024-07-11', 'ejemplo463@gmail.com', '$2y$10$fv29/rGc2ep5M3hEK1HRi.HwGvON34U00tyU7Lul8LudbmN6KRvuG', 'Admin'),
-(93, 'Valeria', 'Montero', 'Andrade', 'Admin', 'Femenino', '2024-08-08', 'mlambarr0i3@gmail.com', '$2y$10$Jkt4nEPxyN5sdXmXRveZVeCEhTmHT2.VsZfdoSIPWL5wjld0cYz0i', 'Admin');
-
 (85, 'Feliciano', 'Lambarri', 'Mata', 'Usuario14', 'Femenino', '2024-07-12', 'usuario45@gmail.com', '', 'Cliente'),
 (92, 'Andrea', 'Hernandez', 'Hernandez', 'user', 'Femenino', '2024-07-11', 'ejemplo463@gmail.com', '$2y$10$fv29/rGc2ep5M3hEK1HRi.HwGvON34U00tyU7Lul8LudbmN6KRvuG', 'Admin'),
 (93, 'Valeria', 'Montero', 'Andrade', 'Admin', 'Femenino', '2024-08-08', 'mlambarri3u@gmail.com', '', 'Admin'),
@@ -296,7 +282,6 @@ ALTER TABLE `representanteempresa`
 --
 ALTER TABLE `subcategorias`
   ADD CONSTRAINT `subcategorias_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`);
->>>>>>> Stashed changes
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

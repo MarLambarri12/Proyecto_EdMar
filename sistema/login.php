@@ -7,7 +7,7 @@ include '../codigo/php/usuarios/RegistrarUsuarios.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="..\img\Logo1.png">
+    <link rel="shortcut icon" href="../img/logosinfondo.png" />
     <title>EdMar</title>
     <?php include '../dependencias.php';?>
     <link rel="stylesheet" href="../codigo/css/login.css">
@@ -48,11 +48,10 @@ include '../codigo/php/usuarios/RegistrarUsuarios.php';
        </div>
        <br>
                 <center><button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
-                        <a href="../index.php" class="btn btn-default btn-sm">Regresar</a> 
+                        <a href="../index.php" class="btn btn-danger btn-block">Regresar</a> 
                 </center>
             </form>
             <div class="text-center mt-3">
-         
                 <p>¿Aún no tienes una cuenta? <br><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Regístrate aquí</a></p>
             </div>
         </div>

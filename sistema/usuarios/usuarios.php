@@ -10,22 +10,18 @@ include '../../Vistas/MenuAdmin.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuarios</title>
 </head>
-<body style="background-color: #D4E8E9;">
+<body style="background-color: #C9D1EE;">
 
 <div class="container-fluid">
     <br>
 <div class="row g-0 text-center">
     <!-- Inicia la primera columna -->
   <div class="col-sm-12 col-md-12">
-
   <div class="card" style="overflow-x: auto;">
   <div class="card-header d-flex justify-content-start align-items-center" style="background-color:#f1a208">
+    <!-- Inicio de la barra de busqueda por usuario -->
                     <form class="d-flex mx-auto w-50" id="searchForm">
-
-                    <input class="form-control me-2" type="search" placeholder="Buscar usuario" id="searchInput" aria-label="Search">
-
                     <input class="form-control me-3" type="search" placeholder="Buscar solo por nombre de usuario" id="buscarUsuario" aria-label="Search">
-
                         <button class="btn btn-outline-light" type="submit">
                             <i class="bi bi-search"></i>
                         </button>
@@ -35,11 +31,7 @@ include '../../Vistas/MenuAdmin.php';
 </button>
 </div>
 
-
-  <div class="card-body" style="background-color: #F5FDC6;">
-
   <div class="card-body" style="background-color: white;">
-
   <?php include 'TUsuarios.php' ?>
   </div>
 </div>

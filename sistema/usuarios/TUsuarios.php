@@ -3,21 +3,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/Proyecto_EdMar/bd/conexion.php';
 
 //Obtener a los usuarios
 $sql = "SELECT id, CONCAT_WS(' ', nombre, apellido_paterno, apellido_materno) AS nombreApellidos, nombre, apellido_paterno, apellido_materno, usuario, sexo, fecha_nacimiento, email, privilegio FROM usuarios";
-
-//$result = $conn->query($sql);
-
-// Condiciones de búsqueda
-if ($searchQuery != '') {
-    // Si hay una consulta de búsqueda, agregar condiciones a la consulta SQL
-    $sql .= " WHERE CONCAT_WS(' ', nombre, apellido_paterno, apellido_materno) LIKE '%$searchQuery%' 
-            OR id LIKE '%$searchQuery%'
-            OR usuario LIKE '%$searchQuery%'
-            OR sexo LIKE '%$searchQuery%' 
-            OR email LIKE '%$searchQuery%' 
-            OR privilegio LIKE '%$searchQuery%'";
-}
-
-
 // Ejecutar la consulta
 $result = $conn->query($sql);
 ?>
@@ -32,12 +17,14 @@ $result = $conn->query($sql);
   <script src="../../bootstrap/js/jquery-3.7.1.min.js"></script>
   <script src="../../bootstrap/js/bootstrap.bundle.min.js"></script>
   <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+  <link rel="stylesheet" type="text/css" href="../../bootstrap/alertifyjs/css/alertify.css">
+  <script src="../../bootstrap/alertifyjs/alertify.js"></script>
+  <link rel="stylesheet" href="../../codigo/css/modal.css">
 </head>
 
 <body>
   <!-- Inicio de la tabla -->
-  <table class="table">
+  <table class="table table-bordered table-hover" style="text-align: center;">
     <thead class="table-dark">
       <tr>
         <td>id</td>
@@ -45,8 +32,8 @@ $result = $conn->query($sql);
         <td>Usuario</td>
         <td>Sexo</td>
         <td>Fecha de nacimiento</td>
-        <td>email</td>
-        <td>privilegio</td>
+        <td>Email</td>
+        <td>Privilegio</td>
         <td>Editar</td>
         <td>Eliminar</td>
       </tr>
@@ -74,7 +61,7 @@ $result = $conn->query($sql);
                 <td>{$email}</td>
                 <td>{$privilegio}</td>
                 <td>
-            <button class='btn btn-warning btn-sm edit-btn'
+            <button class='btn btn-warning btn-sm edit-btn bi bi-pencil-fill'
                     data-bs-toggle='modal'
                     data-bs-target='#editModal'
                     data-idmodal='{$id}'
@@ -86,12 +73,10 @@ $result = $conn->query($sql);
                     data-fechamodal='{$fecha_nacimiento}'
                     data-emailmodal='{$email}'
                     data-privilegiomodal='{$privilegio}'>
-                Editar
             </button>
         </td>
         <td>
-            <button class='btn btn-danger btn-sm delete-btn' data-id='{$id}'>
-                                Eliminar
+            <button class='btn btn-danger btn-sm delete-btn  bi bi-backspace-fill' data-id='{$id}'>
                             </button>
         </td>
                 </tr>";
@@ -262,25 +247,32 @@ document.querySelector('#formusuariosModal').addEventListener('submit', function
       const $btn = (this);
 
       //Confirmación de eliminación
-      if (confirm('¿Está seguro que desea eliminar este usuario?')) {
+      alertify.confirm('Confirmar eliminación','¿Está seguro que desea eliminar este usuario?',
+function(){
         $.ajax({
           url: 'EliminarUsuario.php',
           type: 'POST',
           data: { id: id },
           success: function (response) {
-            alert(response); //Me muestra la respuesta en un alerta
-            if (response.includes('éxito')){
+            if(response.trim()==='success'){
+              alertify.success('usuario eliminado con éxito.');
               $btn.closest('tr').remove(); //Elimina la fila correspondiente
-             location.reload();
+              location.reload();
+            }else{
+              alertify.error('Error:'+ response);
             }
           },
           error: function (xhr, status, error){
-            alert('Error al eliminar al usuario');
+            alertify.error('Error al eliminar el usuario');
             console.error('Error:', status, error);
           }
-        })
-      }
-    });
+        });
+      },
+    function(){
+      alertify.error('Cancelado');
+    }
+  );
+});
   </script>
 </body>
 </html>

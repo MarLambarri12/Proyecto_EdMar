@@ -35,16 +35,19 @@
                     </form> -->
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="bi bi-person-vcard"></i>&nbsp;Afiliados</a>
+                            <a class="nav-link" href="/Proyecto_EdMar/sistema/afiliados.php"><i
+                                    class="bi bi-person-vcard"></i>&nbsp;Afiliados</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#"><i class="bi bi-receipt-cutoff"></i>&nbsp;Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Proyecto_EdMar/sistema/usuarios/usuarios.php"><i class="bi bi-people-fill"></i>&nbsp;Usuarios y permisos</a>
+                            <a class="nav-link" href="/Proyecto_EdMar/sistema/usuarios/usuarios.php"><i
+                                    class="bi bi-people-fill"></i>&nbsp;Usuarios y permisos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../../codigo/php/usuarios/salir.php"><i class="bi bi-person-circle"></i>&nbsp;Cerrar sesión</a>
+                            <a class="nav-link" href="../codigo/php/usuarios/salir.php"><i
+                                    class="bi bi-person-circle"></i>&nbsp;Cerrar sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -75,11 +78,17 @@
                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
                         <div class="accordion-body">
                             <div class="list-group">
-                                <button type="button" class="list-group-item list-group-item-action"><i
+                                <button type="button" class="list-group-item list-group-item-action"
+                                    onclick="location.href='/Proyecto_EdMar/sistema/productos.php'"><i
                                         class="bi bi-arrow-right-circle-fill"></i><strong>&nbsp;Añadir y editar
                                         productos</strong></button>
-                                <button type="button" class="list-group-item list-group-item-action"><i
+                                <button type="button" class="list-group-item list-group-item-action"
+                                    onclick="location.href='/Proyecto_EdMar/sistema/categorias.php'"><i
                                         class="bi bi-arrow-right-circle-fill"></i><strong>&nbsp;Categorías de
+                                        productos</strong></button>
+                                <button type="button" class="list-group-item list-group-item-action"
+                                    onclick="location.href='/Proyecto_EdMar/sistema/subcategorias.php'"><i
+                                        class="bi bi-arrow-right-circle-fill"></i><strong>&nbsp;Subcategorías de
                                         productos</strong></button>
                                 <button type="button" class="list-group-item list-group-item-action"><i
                                         class="bi bi-arrow-right-circle-fill"></i><strong>&nbsp;Inventario y

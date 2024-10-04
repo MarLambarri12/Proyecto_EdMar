@@ -10,8 +10,8 @@ function validarFechaNacimiento($fecha_nacimiento) {
     
     // Verificar que el objeto de fecha es válido y que la fecha formateada coincida con la original y que no sea una fecha futura
     return $fecha_nacimiento_obj &&
-        $fecha_nacimiento_obj->format('Y-m-d') === $fecha_nacimiento &&
-        $fecha_nacimiento_obj <= new DateTime();
+           $fecha_nacimiento_obj->format('Y-m-d') === $fecha_nacimiento &&
+           $fecha_nacimiento_obj <= new DateTime();
 }
 
 //Inicializar la varible alertas
@@ -99,16 +99,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $pass1 = trim($_POST['contra']);
 
             // Consulta para obtener el usuario
-            $query = "SELECT id, pass, privilegio FROM usuarios WHERE usuario = ?";
+            $query = "SELECT id, pass FROM usuarios WHERE usuario = ?";
             $stmt = $conn->prepare($query);
             $stmt->bind_param("s", $usuario);
             $stmt->execute();
             $stmt->store_result();
 
+            $sql = "SELECT privilegio FROM usuarios WHERE Usuario = '".$_POST['usuariologin']."'";
+
+            $result=mysqli_query($conn,$sql);
+
+            $TipoUser=mysqli_fetch_row($result)[0];
+
+
+
             // Verificar si existe el usuario
             if ($stmt->num_rows == 1) {
-                // Recupera el ID, la contraseña hasheada y el privilegio
-                $stmt->bind_result($id, $hashed_password,$TipoUser);
+                // Recupera el ID de la contraseña hasheada
+                $stmt->bind_result($id, $hashed_password);
                 $stmt->fetch();
 
                 // Verificar la contraseña
@@ -122,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     if($TipoUser === 'Admin'){
                         header("Location: inicio.php");
                     }else{
-                        header("Location: ../Vistas/Menu.php"); // Redirigir a una página protegida
+                        header("Location: Vistas/Menu.php"); // Redirigir a una página protegida
                     }
                     exit();
                 } else {
@@ -140,5 +148,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Finalizar el búfer de salida
 ob_end_flush();
 
-
-//Davalosdepeluche  martidp
